@@ -35,7 +35,17 @@ USBFan.prototype.powerAsync = function(powerOn)
 {
     //Only toggle power if we're in the opposite state.
     if (powerOn != this.m_usbSwitch.isPowered())
-        this.m_usbSwitch.powerAsync(powerOn);
+        this.m_usbSwitch.powerAsync(this.m_port, powerOn);
+}
+
+/**
+ * Gets the current power status of the USB Fan.
+ *
+ * @return true if powered; false otherwise.
+ */
+USBFan.prototype.isPowered = function()
+{
+    return this.m_usbSwitch.isPowered(this.m_port);
 }
 
 /**

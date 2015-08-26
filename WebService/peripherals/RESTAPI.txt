@@ -1,0 +1,124 @@
+=======
+= GET =
+=======
+
+System:
+
+    http://localhost/reindeer/system/status
+
+        return
+            {
+                isRunning: true,
+                Timestamp: ISO8601
+            }
+
+    http://localhost/reindeer/system/version
+
+        return
+            {
+                Version: "Foo"
+            }
+
+Peripherals:
+
+    Temperature
+        http://localhost/reindeer/peripherals/temperature/query
+
+            return:
+                {
+                    TemperatureCelsius: 42,
+                    Timestamp: ISO8601
+                }
+
+        http://localhost/reindeer/peripherals/temperature/query?start_time=[ISO8601]&stop_time=[ISO8601]
+
+            return: 
+
+                [
+                    {
+                        TemperatureCelsius: 42,
+                        Timestamp: ISO8601
+                    }
+                ]
+
+    USB Fans
+        http://localhost/reindeer/peripherals/fancontrol/query?id=fan_id
+
+            fan_id = 0, 1, 2
+
+            return:
+
+                {
+                    powerOn = true,
+                    Timestamp: ISO8601
+                }
+
+
+
+        http://localhost/reindeer/peripherals/usbfan/query?id=fan_id&start_time=[ISO8601]&stop_time=[ISO8601]
+
+            return:
+
+                [
+                    {
+                        PowerOn: true,
+                        Timestamp: ISO8601
+                    }
+                ]
+
+Alarms:
+
+    Temperature
+        http://localhost/reindeer/alarms/temperature/status
+
+            //Authenticates w/user profile
+
+            return:
+
+                {
+                    MinAlarmEnabled: true,
+                    MaxAlarmEnabled: false,
+
+                    MinThresholdCelsius: 42,
+                    MaxThresholdCelsius: 100
+                }
+
+=======
+= PUT =
+=======
+
+System:
+
+    http://localhost/reindeer/system/enable
+
+        Request Body:
+            {
+                powerOn: true
+            }
+
+========
+= POST =
+========
+
+Alarms:
+        http://localhost/reindeer/alarms/temperature/subscription?email=foo@bar.com&type=min&thres=Celsius&on=true
+
+
+        Request Body:
+            {
+                email: "foo@bar.com",
+
+                MinAlarmEnabled: true,
+                MaxAlarmEnabled: false,
+
+                MinThresholdCelsius: 42,
+                MaxThresholdCelsius: 100
+            }
+
+==========
+= DELETE =
+==========
+
+Alarms:
+        http://localhost/reindeer/alarms/temperature/subscription?email=foo@bar.com
+
